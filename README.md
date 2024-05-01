@@ -1,3 +1,13 @@
+## Features
+
+### 1. Choose difficulty level 
+```bash
+Easy(10 blank), Medium(20 blank), Hard(30 blank)
+```
+### 2. Fill empty cells
+### 3. Submit
+
+
 This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 # Getting Started

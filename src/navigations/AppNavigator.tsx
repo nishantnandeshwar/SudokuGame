@@ -9,13 +9,9 @@ const Stack = createNativeStackNavigator();
 function AppNavigator() {
   return (
     <Stack.Navigator initialRouteName='Home'>
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Sudoku" component={SudokuScreen} />
     </Stack.Navigator>
-    // <Stack.Navigator>
-    //   <Stack.Screen name="Home" component={HomeScreen} />
-    //   // <Stack.Screen name="Details" component={DetailsScreen} />
-    // </Stack.Navigator>
   );
 }
 
