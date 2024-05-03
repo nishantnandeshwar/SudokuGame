@@ -1,35 +1,45 @@
-import React from 'react'
+import React,{ useRef} from 'react'
 import { View, Text, Button, StyleSheet, Pressable } from 'react-native'
 
+interface levels {
+    l: string;
+    blanck: string;
+}
 interface CardProps {
-    title: string;
-    keys?: number,
+    keys?: number;
+    // obj: {}
+    obj: levels;
 }
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
-    const levels = ["Easy", "Medium", "Hard"]
-    const selectLevel = (level: string) => {
-        console.log("Selected Level:", level)
+    const data:any = useRef("")
+    const levels = [
+        {l:'Easy',blanck:'10'},
+        {l:'Medium',blanck:'20'},
+        {l:'Hard',blanck:'30'},
+    ]
+    const selectLevel = (obj:{l: string,blanck: string;}) => {
+        data.current = obj
     }
 
-    const Card: React.FC<CardProps> = ({ title, keys }) => {
+    const Card: React.FC<CardProps> = ({ obj, keys }) => {
         return (
-            <Pressable onPress={() => selectLevel(title)} key={keys}>
+            <Pressable onPress={() => selectLevel(obj)} key={keys}>
                 <View style={styles.card}>
-                    <Text style={styles.title}>{title}</Text>
+                    <Text style={styles.title}>{obj?.l}</Text>
                 </View>
             </Pressable>
         );
     };
 
     const goToPlay=()=>{
-        navigation.navigate('Sudoku')
+        navigation.navigate('Sudoku',{data:data.current})
     }
     return (
         <View style={[styles.container]}>
             <View style={{ flexDirection: 'row' }}>
                 {levels.map((level, index) => (
-                    <Card key={index} title={level} /> // Moved key prop to the Card component
+                    <Card key={index} obj={level} /> // Moved key prop to the Card component
                 ))}
             </View>
             <View style={[styles.card]}>

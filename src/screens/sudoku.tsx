@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { StyleSheet, Text, View, TextInput } from 'react-native'
 
-const SudokuScreen = () => {
-
+const SudokuScreen = (props: any) => {
+    console.log("props>>", JSON.stringify(props.route.params?.data?.l))
     const [grid, setGrid] = useState(() => {
         const completeSudoku = generateSudoku()
+        console.log("completeSudoku>>",completeSudoku)
         return completeSudoku;
     })
-    // useEffect(() => { generateSudoku() }, [])
 
+    const details = useRef(props.route.params?.data || undefined)
 
     // Function to shuffle an array
     function shuffle(array: number[]) {
@@ -78,13 +79,34 @@ const SudokuScreen = () => {
         return true;
     }
 
+    function removeNumbers(grid, count) {
+        console.log("grid i>>>>",grid)
+        const updatedGrid = grid.map(row => [...row]); // Create a copy of the grid
+        const coordinates = new Set();
+        
+        // Generate unique random coordinates
+        while (coordinates.size < count) {
+          const row = Math.floor(Math.random() * 9);
+          const col = Math.floor(Math.random() * 9);
+          coordinates.add(`${row},${col}`);
+        }
+        
+        // Update grid values at random coordinates to 0
+        for (const coord of coordinates) {
+          const [row, col] = coord.split(',').map(Number);
+          updatedGrid[row][col] = 0;
+        }
+        console.log("updatedGrid>>>",updatedGrid)
+        return updatedGrid;
+      }
     // Function to generate a Sudoku puzzle
     function generateSudoku() {
         const grid = Array.from({ length: 9 }, () => Array.from({ length: 9 }, () => 0));
         const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         shuffle(numbers);
         solveSudoku(grid, numbers);
-        return grid;
+        const updatedSudoku = removeNumbers(grid,10)
+        return {grid,updatedSudoku};
     }
 
     return (
@@ -92,15 +114,22 @@ const SudokuScreen = () => {
             <Text style={[styles.header]}>
                 The Sudoku Game
             </Text>
-            <View style={[]}>
-                {grid.map((row, rowIndex) => (
+            <View style={{ borderLeftWidth: 2,borderTopWidth:2 }}>
+                {grid?.updatedSudoku?.map((row, rowIndex) => (
                     <View style={[styles.column]} key={rowIndex}>
                         <Text>
                             {row.map((cell, cellIndex) => (
                                 <View style={[styles.row]} key={cellIndex}>
-                                    <Text style={[styles.cell]}>
-                                        {cell}
-                                    </Text>
+                                    <TextInput
+                                        style={[
+                                            styles.cell,
+                                            (rowIndex + 1) % 3 === 0 ? { borderBottomWidth: 2 } : { borderBottomWidth: 0.2 },
+                                            (cellIndex + 1) % 3 === 0 ? { borderRightWidth: 2 } : { borderRightWidth: 0.2 }
+                                        ]}
+                                        // onChangeText={onChangeNumber}
+                                        value={cell.toString() !== "0" ? cell.toString(): ""}
+                                        keyboardType="numeric"
+                                    />
                                 </View>
                             ))}
                         </Text>
@@ -133,10 +162,9 @@ const styles = StyleSheet.create({
     cell: {
         width: 40,
         height: 40,
-        borderWidth: 1,
+        borderWidth: 0.2,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
     },
-
 })
