@@ -104,7 +104,7 @@ const SudokuScreen = (props: any) => {
         shuffle(numbers);
         solveSudoku(grid, numbers);
         const updatedSudoku = removeNumbers(grid, 10)
-        const zeroCoordinates = updatedSudoku.reduce((coordinates:any, row, rowIndex) => {
+        const zeroCoordinates = updatedSudoku.reduce((coordinates: any, row, rowIndex) => {
             row.forEach((cell, colIndex) => {
                 if (cell === 0) {
                     coordinates.push({ row: rowIndex, col: colIndex });
@@ -115,27 +115,32 @@ const SudokuScreen = (props: any) => {
         return { grid, updatedSudoku, zeroCoordinates };
     }
 
-    const updateSudoku = (e:string, row: any,col: any) => {
+    const updateSudoku = (e: string, row: any, col: any) => {
         const newGrid = [...grid?.updatedSudoku]
         newGrid[row][col] = parseInt(e) || 0
         setGrid({ ...grid, updatedSudoku: newGrid });
     }
 
-    const varifySudoku=()=>{
-        if(JSON.stringify(grid?.updatedSudoku) === JSON.stringify(grid?.grid)){
+    const varifySudoku = () => {
+        if (JSON.stringify(grid?.updatedSudoku) === JSON.stringify(grid?.grid)) {
             Alert.alert("Success")
             props.navigation.navigate('Home')
         }
-        else{
+        else {
             Alert.alert("Failed")
         }
     }
 
-    const checkEdit=(col: number,row: number)=>{
-        const status = rememberCordinate.find((item:any)=>item.col === col && item.row === row)
+    const checkEdit = (col: number, row: number) => {
+        const status = rememberCordinate.find((item: any) => item.col === col && item.row === row)
         return status ? true : false
     }
 
+    // const numberKey = ['1', '2', '3', '4', '5', '6', '7', '8', 9]
+
+    // const clearGrid=()=>{
+
+    // }
     return (
         <ScrollView contentContainerStyle={[styles.container]} >
             <Text style={[styles.header]}>
@@ -152,11 +157,12 @@ const SudokuScreen = (props: any) => {
                                             styles.cell,
                                             (rowIndex + 1) % 3 === 0 ? { borderBottomWidth: 2 } : { borderBottomWidth: 0.2 },
                                             (cellIndex + 1) % 3 === 0 ? { borderRightWidth: 2 } : { borderRightWidth: 0.2 },
+                                            {backgroundColor: checkEdit(cellIndex, rowIndex)? "grey": 'transperent'}
                                         ]}
-                                        onChangeText={(e) => updateSudoku(e,rowIndex,cellIndex)}
+                                        onChangeText={(e) => updateSudoku(e, rowIndex, cellIndex)}
                                         value={cell.toString() !== "0" ? cell.toString() : ""}
                                         keyboardType="numeric"
-                                        editable={checkEdit(cellIndex,rowIndex)}
+                                        editable={checkEdit(cellIndex, rowIndex)}
                                     />
                                 </View>
                             ))}
@@ -164,9 +170,31 @@ const SudokuScreen = (props: any) => {
                     </View>
                 ))}
             </View>
+            {/* <View style={[styles.row,{padding:10,marginTop:10}]}>
+            {numberKey.map((num, i) =>
+                <View key={i} >
+                    <Text style={{padding:10,margin:5, borderWidth:1, borderRadius:3}}>{num}</Text>
+                </View>
+            )}
+            </View> */}
+            {/* <Pressable
+                android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
+                onPress={() => clearGrid()}
+                style={({ pressed }) => [
+                    {
+                        backgroundColor: pressed ? 'lightgrey' : 'white',
+                        borderRadius: 5,
+                        alignItems: 'center',
+                    }, commonStyles.card
+                ]}
+            >
+                <View>
+                    <Text style={commonStyles.title18}>Clear</Text>
+                </View>
+            </Pressable> */}
             <Pressable
                 android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
-                onPress={()=> varifySudoku()}
+                onPress={() => varifySudoku()}
                 style={({ pressed }) => [
                     {
                         backgroundColor: pressed ? 'lightgrey' : 'white',
@@ -187,7 +215,6 @@ export { SudokuScreen }
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     },
