@@ -176,7 +176,7 @@ const SudokuScreen = (props: any) => {
                     }, commonStyles.card
                 ]}
             >
-                    <Text className="text-white dark:text-slate-900  text-xl tracking-tight">Submit</Text>
+                    <Text className="text-slate-900 dark:text-white text-xl tracking-tight">Submit</Text>
             </Pressable>
         </ScrollView>
     )
