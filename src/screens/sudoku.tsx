@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, TextInput, Pressable, Alert, ScrollView } from 
 import { commonStyles } from '../assets/styles'
 
 const SudokuScreen = (props: any) => {
-    console.log("props>>", JSON.stringify(props.route.params?.data?.l))
     const [grid, setGrid] = useState(() => {
         const completeSudoku = generateSudoku()
         return completeSudoku;
@@ -103,7 +102,7 @@ const SudokuScreen = (props: any) => {
         const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9];
         shuffle(numbers);
         solveSudoku(grid, numbers);
-        const updatedSudoku = removeNumbers(grid, 10)
+        const updatedSudoku = removeNumbers(grid, props?.route?.params?.data?.blanck || 10)
         const zeroCoordinates = updatedSudoku.reduce((coordinates: any, row, rowIndex) => {
             row.forEach((cell, colIndex) => {
                 if (cell === 0) {
