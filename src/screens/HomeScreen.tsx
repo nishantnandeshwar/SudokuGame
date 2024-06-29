@@ -1,7 +1,6 @@
 import React, { useRef, useState } from 'react'
-import { View, Text, Button, StyleSheet, Pressable } from 'react-native'
+import { View, Text, Pressable } from 'react-native'
 import { levels, CardProps } from '../types/type'
-import { commonStyles } from '../assets/styles'
 
 export const HomeScreen = ({ navigation }: { navigation: any }) => {
     const data: any = useRef("")
@@ -21,18 +20,12 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
             <Pressable
                 android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
                 onPress={() => selectLevel(props.obj, props.keys)} key={props.keys}
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed ? 'lightgrey' : 'white',
-                        borderRadius: 5,
-                        alignItems: 'center',
-                        borderWidth: props.keys === selectedBtn ? 2 : 0
-                    }, commonStyles.card
-                ]}
+                style={{ borderWidth: props.keys === selectedBtn ? 2 : 0, elevation: 2 }}
+                className='bg-white dark:bg-slate-800 rounded items-center p-4 m-2 drop-shadow-md hover:drop-shadow-xl border-gray-950 dark:border-white '
             >
-                <View >
-                    <Text style={commonStyles.title18}>{props.obj?.l}</Text>
-                </View>
+                <Text className="text-slate-900 dark:text-white text-base font-medium tracking-tight">
+                    {props.obj?.l}
+                </Text>
             </Pressable>
 
         );
@@ -41,8 +34,9 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
     const goToPlay = () => {
         navigation.navigate('Sudoku', { data: data.current })
     }
+
     return (
-        <View style={[styles.container]}>
+        <View className="flex-1 justify-center items-center bg-white dark:bg-slate-800 ">
             <View style={{ flexDirection: 'row' }}>
                 {levels.map((level, index) => (
                     <Card key={index} obj={level} keys={index} /> // Moved key prop to the Card component
@@ -51,58 +45,12 @@ export const HomeScreen = ({ navigation }: { navigation: any }) => {
             <Pressable
                 android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
                 onPress={() => goToPlay()}
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed ? 'lightgrey' : 'white',
-                        padding: 10,
-                        borderRadius: 5,
-                        width: '30%',
-                        alignItems: 'center'
-                    }, styles.card
-                ]}
+                className='bg-slate-800 dark:bg-white  rounded items-center p-4 m-2 drop-shadow-md hover:drop-shadow-xl border-gray-950 dark:border-white '
             >
-                <Text style={styles.title}>
-                    Play
+                <Text className="text-white dark:text-slate-900  text-xl tracking-tight">
+                    Go to playing ground
                 </Text>
             </Pressable>
         </View>
     )
 }
-
-
-const styles = StyleSheet.create({
-    container: {
-        justifyContent: 'center',
-        alignContent: 'center',
-        flexDirection: 'column',
-        flex: 1,
-        alignItems: 'center'
-    },
-    card: {
-        backgroundColor: '#fff',
-        borderRadius: 8,
-        padding: 16,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        shadowColor: '#000',
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        elevation: 2,
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color:'black'
-    },
-    wrapperCustom: {
-        borderRadius: 8,
-        padding: 6,
-    },
-    text: {
-        fontSize: 16,
-    },
-})

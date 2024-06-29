@@ -135,28 +135,24 @@ const SudokuScreen = (props: any) => {
         return status ? true : false
     }
 
-    // const numberKey = ['1', '2', '3', '4', '5', '6', '7', '8', 9]
-
-    // const clearGrid=()=>{
-
-    // }
     return (
-        <ScrollView contentContainerStyle={[styles.container]} >
-            <Text style={[styles.header]}>
-                The Sudoku Game
-            </Text>
-            <View style={{ borderLeftWidth: 2, borderTopWidth: 2 }}>
+        <ScrollView className='flex-1 bg-white dark:bg-slate-800 '
+            contentContainerStyle={[styles.container]}>
+            <View style={{ borderLeftWidth: 2, borderTopWidth: 2, marginTop:10 }}
+            className='border-current dark:border-slate-50'
+            >
                 {grid?.updatedSudoku?.map((row, rowIndex) => (
                     <View style={[styles.column]} key={rowIndex}>
                         <Text>
                             {row.map((cell, cellIndex) => (
                                 <View style={[styles.row]} key={cellIndex}>
                                     <TextInput
+                                    className='border-current dark:border-slate-50 text-slate-900 dark:text-white'
                                         style={[
                                             styles.cell,
                                             (rowIndex + 1) % 3 === 0 ? { borderBottomWidth: 2 } : { borderBottomWidth: 0.2 },
                                             (cellIndex + 1) % 3 === 0 ? { borderRightWidth: 2 } : { borderRightWidth: 0.2 },
-                                            {backgroundColor: checkEdit(cellIndex, rowIndex)? "grey": 'transperent'}
+                                            { backgroundColor: checkEdit(cellIndex, rowIndex) ? "grey" : 'transperent' }
                                         ]}
                                         onChangeText={(e) => updateSudoku(e, rowIndex, cellIndex)}
                                         value={cell.toString() !== "0" ? cell.toString() : ""}
@@ -169,28 +165,6 @@ const SudokuScreen = (props: any) => {
                     </View>
                 ))}
             </View>
-            {/* <View style={[styles.row,{padding:10,marginTop:10}]}>
-            {numberKey.map((num, i) =>
-                <View key={i} >
-                    <Text style={{padding:10,margin:5, borderWidth:1, borderRadius:3}}>{num}</Text>
-                </View>
-            )}
-            </View> */}
-            {/* <Pressable
-                android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
-                onPress={() => clearGrid()}
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed ? 'lightgrey' : 'white',
-                        borderRadius: 5,
-                        alignItems: 'center',
-                    }, commonStyles.card
-                ]}
-            >
-                <View>
-                    <Text style={commonStyles.title18}>Clear</Text>
-                </View>
-            </Pressable> */}
             <Pressable
                 android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
                 onPress={() => varifySudoku()}
@@ -202,9 +176,7 @@ const SudokuScreen = (props: any) => {
                     }, commonStyles.card
                 ]}
             >
-                <View>
-                    <Text style={commonStyles.title18}>Submit</Text>
-                </View>
+                    <Text className="text-white dark:text-slate-900  text-xl tracking-tight">Submit</Text>
             </Pressable>
         </ScrollView>
     )
@@ -235,6 +207,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        color: 'black'
+        // color: 'black'
     },
 })
