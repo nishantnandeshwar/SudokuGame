@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { StyleSheet, Text, View, TextInput, Pressable, Alert, ScrollView } from 'react-native'
+import { StyleSheet, Text, View, TextInput, Pressable, Alert, ScrollView, Dimensions } from 'react-native'
 import { commonStyles } from '../assets/styles'
+
+const { height, width } = Dimensions.get("window")
 
 const SudokuScreen = (props: any) => {
     const [grid, setGrid] = useState(() => {
@@ -134,12 +136,12 @@ const SudokuScreen = (props: any) => {
         const status = rememberCordinate.find((item: any) => item.col === col && item.row === row)
         return status ? true : false
     }
-
+    console.log("width>>", width)
     return (
         <ScrollView className='flex-1 bg-white dark:bg-slate-800 '
             contentContainerStyle={[styles.container]}>
-            <View style={{ borderLeftWidth: 2, borderTopWidth: 2, marginTop:10 }}
-            className='border-current dark:border-slate-50'
+            <View style={{ borderLeftWidth: 2, borderTopWidth: 2, marginTop: 10 }}
+                className='border-current dark:border-slate-50'
             >
                 {grid?.updatedSudoku?.map((row, rowIndex) => (
                     <View style={[styles.column]} key={rowIndex}>
@@ -147,7 +149,7 @@ const SudokuScreen = (props: any) => {
                             {row.map((cell, cellIndex) => (
                                 <View style={[styles.row]} key={cellIndex}>
                                     <TextInput
-                                    className='border-current dark:border-slate-50 text-slate-900 dark:text-white'
+                                        className='border-current dark:border-slate-50 text-slate-900 dark:text-white'
                                         style={[
                                             styles.cell,
                                             (rowIndex + 1) % 3 === 0 ? { borderBottomWidth: 2 } : { borderBottomWidth: 0.2 },
@@ -168,15 +170,11 @@ const SudokuScreen = (props: any) => {
             <Pressable
                 android_ripple={{ color: 'rgba(0, 0, 0, 0.1)', radius: 70, borderless: false }}
                 onPress={() => varifySudoku()}
-                style={({ pressed }) => [
-                    {
-                        backgroundColor: pressed ? 'lightgrey' : 'white',
-                        borderRadius: 5,
-                        alignItems: 'center',
-                    }, commonStyles.card
-                ]}
+                className='bg-slate-800 dark:bg-white  rounded items-center p-2 m-4 drop-shadow-md hover:drop-shadow-xl border-gray-950 dark:border-white '
             >
-                    <Text className="text-slate-900 dark:text-white text-xl tracking-tight">Submit</Text>
+                <Text className="text-white dark:text-slate-900  text-xl tracking-tight">
+                    Submit
+                </Text>
             </Pressable>
         </ScrollView>
     )
@@ -201,12 +199,12 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     cell: {
-        width: 40,
-        height: 40,
-        borderWidth: 0.2,
+        borderWidth: 0.5,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center',
-        // color: 'black'
+        borderColor: 'white',
+        width: (width * 10) / 100,
+        height: (width * 10) / 100,
     },
 })
